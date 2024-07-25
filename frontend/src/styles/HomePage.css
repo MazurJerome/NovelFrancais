@@ -1,0 +1,18 @@
+/* src/styles/HomePage.css */
+
+.home-page {
+  padding: 20px;
+}
+
+.novels-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px; /* Ajoute un espace uniforme entre les cartes */
+}
+
+.novel-card-container {
+  margin: 16px; /* Ajoute des marges autour des cartes */
+  flex: 1 1 300px; /* Ajustez la largeur des cartes */
+  box-sizing: border-box;
+}

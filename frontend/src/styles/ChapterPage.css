@@ -1,0 +1,18 @@
+/* src/styles/ChapterPage.css */
+
+.chapter-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.chapter-page h2 {
+  color: #2f4f4f;
+  margin-bottom: 20px;
+}
+
+.chapter-page p {
+  line-height: 1.6;
+  font-size: 1.2em;
+  color: #555;
+}

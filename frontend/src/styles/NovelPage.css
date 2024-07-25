@@ -1,0 +1,14 @@
+/* src/styles/NovelPage.css */
+.novel-page {
+  padding: 20px;
+}
+
+.novel-content {
+  margin-bottom: 20px;
+}
+
+.novel-translation {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 5px;
+}

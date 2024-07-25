@@ -1,0 +1,14 @@
+/* src/styles/NovelList.css */
+
+.novel-list .novel {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.novel-list .novel h3 {
+  margin: 0;
+}
+
+.novel-list .novel p {
+  margin: 5px 0 0;
+}
