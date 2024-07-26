@@ -1,14 +1,120 @@
-/* src/styles/NovelPage.css */
 .novel-page {
-  padding: 20px;
+  margin: 20px;
+  padding-bottom: 60px; /* Ajout de marge en bas pour éviter le chevauchement */
 }
 
-.novel-content {
+.novel-page h2 {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.novel-translation {
-  background-color: #f9f9f9;
-  padding: 15px;
+.novel-details {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  max-width: 1400px; /* Limiter la largeur du contenu */
+  margin: 0 auto; /* Centrer le contenu */
+}
+
+.novel-cover img {
+  width: 300px;
+  height: 400px;
+  margin-right: 20px;
+}
+
+.novel-description {
+  flex: 1;
+  background-color: white;
+  padding: 20px;
   border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.novel-description p {
+  margin: 0;
+}
+
+.novel-description.expanded {
+  height: auto;
+}
+
+.toggle-description {
+  cursor: pointer;
+  color: #007bff;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.novel-info-chapters {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  max-width: 1400px; /* Limiter la largeur du contenu */
+  margin: 0 auto; /* Centrer le contenu */
+}
+
+.novel-info {
+  flex: 1;
+  margin-right: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.novel-chapters {
+  flex: 2;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chapter-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chapter-link {
+  background: none;
+  border: none;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.chapter-link:hover {
+  color: #0056b3;
+}
+
+.delete-chapter-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.add-chapter-btn {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.add-chapter-btn:hover,
+.delete-chapter-btn:hover {
+  opacity: 0.8;
 }

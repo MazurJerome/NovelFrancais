@@ -1,47 +1,96 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import ChapterNavigation from "../components/ChapterNavigation";
+import FontSizeMenu from "../components/FontSizeMenu";
 import "../styles/ChapterPage.css";
 
 function ChapterPage() {
-  const { novelId, chapterIndex } = useParams();
+  const { novelId, chapterId } = useParams();
   const [chapter, setChapter] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [chapters, setChapters] = useState([]);
+  const [fontSize, setFontSize] = useState(16);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:5000/api/novels/${novelId}/chapters/${chapterIndex}`
-      )
+      .get(`http://localhost:5000/api/novels/${novelId}/chapters/${chapterId}`)
       .then((response) => {
-        console.log("Chapter data:", response.data); // Ajouter un log pour déboguer
         setChapter(response.data);
-        setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching chapter:", error); // Ajouter un log pour les erreurs
-        setError("Error fetching chapter");
-        setLoading(false);
+        console.error("There was an error fetching the chapter!", error);
       });
-  }, [novelId, chapterIndex]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+    axios
+      .get(`http://localhost:5000/api/novels/${novelId}`)
+      .then((response) => {
+        setChapters(response.data.chapters);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the chapters!", error);
+      });
+  }, [novelId, chapterId]);
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [chapterId]);
 
-  if (!chapter) {
-    return <div>No chapter found</div>;
-  }
+  const handleChapterChange = (newIndex) => {
+    navigate(`/novel/${novelId}/chapters/${chapters[newIndex]._id}`);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const chapterIndex = chapters.findIndex((chap) => chap._id === chapterId);
+      if (event.key === "ArrowLeft" && chapterIndex > 0) {
+        navigate(
+          `/novel/${novelId}/chapters/${chapters[chapterIndex - 1]._id}`
+        );
+      } else if (
+        event.key === "ArrowRight" &&
+        chapterIndex < chapters.length - 1
+      ) {
+        navigate(
+          `/novel/${novelId}/chapters/${chapters[chapterIndex + 1]._id}`
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [chapterId, chapters, navigate, novelId]);
 
   return (
     <div className="chapter-page">
-      <h2>{chapter.title}</h2>
-      <p>{chapter.content}</p>
+      {chapter ? (
+        <>
+          <h2>{chapter.title}</h2>
+          <ChapterNavigation
+            novelId={novelId}
+            chapterId={chapterId}
+            chapters={chapters}
+            onChange={handleChapterChange}
+          />
+          <FontSizeMenu fontSize={fontSize} setFontSize={setFontSize} />
+          <div
+            className="chapter-content"
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            <p>{chapter.content}</p>
+          </div>
+          <ChapterNavigation
+            novelId={novelId}
+            chapterId={chapterId}
+            chapters={chapters}
+            onChange={handleChapterChange}
+          />
+        </>
+      ) : (
+        <p>Chargement...</p>
+      )}
     </div>
   );
 }

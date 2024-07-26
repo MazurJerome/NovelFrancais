@@ -1,0 +1,17 @@
+/* src/styles/SearchResultsPage.css */
+
+.search-results-page {
+  padding: 20px;
+  text-align: center;
+}
+
+.search-results-page h2 {
+  margin-bottom: 40px; /* Ajoutez de l'espace en bas du titre */
+}
+
+.novel-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}

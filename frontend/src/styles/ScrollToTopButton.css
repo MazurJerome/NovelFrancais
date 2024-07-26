@@ -1,0 +1,25 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.scroll-to-top div {
+  background-color: #2f4f4f; /* Couleur principale du site */
+  color: #f5deb3; /* Texte beige clair */
+  padding: 10px 15px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-to-top div:hover {
+  background-color: #8b4513; /* Couleur au survol */
+  transform: scale(1.1); /* Légère augmentation de la taille au survol */
+}

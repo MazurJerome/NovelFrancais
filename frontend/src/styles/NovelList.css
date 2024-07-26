@@ -1,14 +1,76 @@
 /* src/styles/NovelList.css */
 
-.novel-list .novel {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
+.novel-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
-.novel-list .novel h3 {
+.novel-card {
+  display: block;
+  width: 200px;
+  height: 300px;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  margin-bottom: 40px; /* Ajoutez une marge en bas pour éviter le chevauchement */
+}
+
+.novel-card-background {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.novel-card-background:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.novel-card-content {
+  width: 100%;
+  height: 60px; /* Hauteur ajustée pour permettre deux lignes de texte */
+  padding: 5px 10px; /* Ajustement du padding */
+  background: rgba(0, 0, 0, 0.5);
+  color: #f5deb3; /* Couleur beige */
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.novel-card-content h3 {
+  font-size: 1em; /* Taille du texte */
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limitez à deux lignes */
+  -webkit-box-orient: vertical;
+  line-height: 1.2em; /* Hauteur de ligne ajustée pour mieux gérer l'espacement */
+  max-height: 2.4em; /* Pour s'assurer que deux lignes sont visibles */
+  color: inherit;
 }
 
-.novel-list .novel p {
-  margin: 5px 0 0;
+.novel-card:hover .novel-card-content h3 {
+  color: #ffa500; /* Couleur orange en hover */
+  text-decoration: none; /* Supprime le soulignement au survol */
+}
+
+/* Ajoutez cette règle pour cibler spécifiquement les liens et supprimer le soulignement */
+.novel-card-content a {
+  text-decoration: none;
+}
+
+.novel-card-content a:hover {
+  text-decoration: none;
 }

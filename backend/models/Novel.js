@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const NovelSchema = new Schema({
-  title: { type: String, required: true },
-  description: { type: String, required: true },
-  status: { type: String, required: true },
-  chapters: [
-    {
-      title: { type: String, required: true },
-      link: { type: String, required: true },
-    },
-  ],
+const chapterSchema = new mongoose.Schema({
+  title: String,
+  link: String,
+  content: String,
 });
 
-// Utilisez la collection 'Novels.novels' dans la base de données 'datab_Quiz'
-const Novel = mongoose.model("Novel", NovelSchema, "Novels.novels");
-module.exports = Novel;
+const novelSchema = new mongoose.Schema({
+  title: String,
+  author: String,
+  alternativeName: String,
+  genre: [String], // Modifier ici pour accepter un tableau de chaînes
+  source: String,
+  status: String,
+  coverImage: String,
+  description: String,
+  chapters: [chapterSchema],
+});
+
+module.exports = mongoose.model("Novel", novelSchema);

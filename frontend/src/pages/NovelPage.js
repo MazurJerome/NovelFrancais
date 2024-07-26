@@ -1,57 +1,138 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import "../styles/NovelPage.css";
 
 function NovelPage() {
   const { id } = useParams();
   const [novel, setNovel] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/novels/${id}`)
       .then((response) => {
-        console.log("Novel data:", response.data); // Log pour déboguer
         setNovel(response.data);
-        setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching novel:", error); // Log pour déboguer les erreurs
-        setError("Error fetching novel");
-        setLoading(false);
+        console.error("There was an error fetching the novel!", error);
       });
   }, [id]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleAddChapter = () => {
+    navigate(`/novel/${id}/add-chapter`);
+  };
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+  const handleDeleteChapter = (chapterId) => {
+    axios
+      .delete(`http://localhost:5000/api/novels/${id}/chapters/${chapterId}`)
+      .then((response) => {
+        setNovel((prevNovel) => ({
+          ...prevNovel,
+          chapters: prevNovel.chapters.filter(
+            (chapter) => chapter._id !== chapterId
+          ),
+        }));
+      })
+      .catch((error) => {
+        console.error("There was an error deleting the chapter!", error);
+      });
+  };
 
-  if (!novel) {
-    return <div>No novel found</div>;
-  }
+  const handleChapterClick = (chapterId) => {
+    navigate(`/novel/${id}/chapters/${chapterId}`);
+  };
+
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(!isDescriptionExpanded);
+  };
 
   return (
     <div className="novel-page">
-      <h2>{novel.title}</h2>
-      <p>{novel.description}</p>
-      <p>Status: {novel.status}</p>
-      <h3>Chapters</h3>
-      <ul>
-        {novel.chapters.map((chapter, index) => (
-          <li key={index}>
-            <Link to={`/novel/${novel._id}/chapters/${index}`}>
-              {chapter.title}
-            </Link>
-            <p>{chapter.content}</p>{" "}
-            {/* Affiche le contenu du chapitre pour débogage */}
-          </li>
-        ))}
-      </ul>
+      {novel ? (
+        <>
+          <h2>{novel.title}</h2>
+          <div className="novel-details">
+            <div className="novel-cover">
+              <img src={novel.coverImage} alt={novel.title} />
+            </div>
+            <div
+              className={`novel-description ${
+                isDescriptionExpanded ? "expanded" : ""
+              }`}
+            >
+              <p>
+                {isDescriptionExpanded
+                  ? novel.description
+                  : `${novel.description.substring(0, 475)}...`}
+                {!isDescriptionExpanded && novel.description.length > 475 && (
+                  <span
+                    className="toggle-description"
+                    onClick={toggleDescription}
+                  >
+                    lire la suite...
+                  </span>
+                )}
+              </p>
+              {isDescriptionExpanded && (
+                <span
+                  className="toggle-description"
+                  onClick={toggleDescription}
+                >
+                  &lt;&lt;&lt;
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="novel-info-chapters">
+            <div className="novel-info">
+              <h3>Informations</h3>
+              <p>
+                <strong>Auteur:</strong> {novel.author}
+              </p>
+              <p>
+                <strong>Nom alternatif:</strong> {novel.alternativeName}
+              </p>
+              <p>
+                <strong>Genre:</strong> {novel.genre.join(", ")}
+              </p>
+              <p>
+                <strong>Source:</strong> {novel.source}
+              </p>
+              <p>
+                <strong>Statut:</strong> {novel.status}
+              </p>
+            </div>
+            <div className="novel-chapters">
+              <h3>Chapitres</h3>
+              <ul>
+                {novel.chapters.map((chapter, index) => (
+                  <li key={index} className="chapter-item">
+                    <button
+                      className="chapter-link"
+                      onClick={() => handleChapterClick(chapter._id)}
+                    >
+                      {chapter.title}
+                    </button>
+                    <button
+                      onClick={() => handleDeleteChapter(chapter._id)}
+                      className="delete-chapter-btn"
+                    >
+                      Supprimer
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <button className="add-chapter-btn" onClick={handleAddChapter}>
+                Ajouter un chapitre
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <p>Chargement...</p>
+      )}
     </div>
   );
 }

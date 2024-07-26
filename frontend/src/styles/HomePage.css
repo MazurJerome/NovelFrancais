@@ -2,17 +2,16 @@
 
 .home-page {
   padding: 20px;
+  text-align: center;
 }
 
-.novels-container {
+.home-page h2 {
+  margin-bottom: 40px; /* Ajoutez de l'espace en bas du titre */
+}
+
+.novel-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 16px; /* Ajoute un espace uniforme entre les cartes */
-}
-
-.novel-card-container {
-  margin: 16px; /* Ajoute des marges autour des cartes */
-  flex: 1 1 300px; /* Ajustez la largeur des cartes */
-  box-sizing: border-box;
+  gap: 20px;
 }

@@ -9,18 +9,20 @@ function HomePage() {
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/novels")
-      .then((response) => setNovels(response.data))
-      .catch((error) => console.error("Error fetching novels:", error));
+      .then((response) => {
+        setNovels(response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the novels!", error);
+      });
   }, []);
 
   return (
     <div className="home-page">
-      <h2>Liste des Novels</h2>
-      <div className="novels-container">
+      <h2>Liste des romans</h2>
+      <div className="novel-list">
         {novels.map((novel) => (
-          <div key={novel._id} className="novel-card-container">
-            <NovelCard novel={novel} />
-          </div>
+          <NovelCard key={novel._id} novel={novel} />
         ))}
       </div>
     </div>

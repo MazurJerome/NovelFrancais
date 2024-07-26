@@ -1,0 +1,23 @@
+.chapter-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.nav-link {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.nav-link.disabled {
+  color: #ccc;
+  pointer-events: none;
+}
+
+select {
+  margin: 0 10px;
+  padding: 5px;
+  font-size: 1em;
+}

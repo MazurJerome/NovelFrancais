@@ -36,59 +36,58 @@ body {
   background-color: #2f4f4f; /* Header et navigation */
   color: #f5deb3; /* Texte beige clair */
   padding: 10px 20px;
-  width: 100%; /* Prend toute la largeur de la page */
 }
 
 .navbar-section {
   flex: 1;
-  text-align: center;
 }
 
 .navbar-section:first-child {
   text-align: left;
 }
 
+.navbar-section.middle-section {
+  flex: 2;
+  text-align: center;
+}
+
 .navbar-section:last-child {
   text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .navbar a {
   color: #f5deb3; /* Texte beige clair */
   text-decoration: none;
   font-size: 1.2em;
+  margin-right: 15px; /* Espacement entre les liens */
 }
 
-.search-bar {
+.navbar h1 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.search-section {
   display: flex;
   align-items: center;
   position: relative;
-  border-radius: 18px;
-  background-color: #f5deb3;
-  transition: width 0.4s ease;
 }
 
-.search-input {
-  flex-grow: 1;
-  height: 36px;
-  padding: 0 10px;
-  border: none;
-  border-radius: 18px;
-  background-color: #f5deb3;
-  color: #2f4f4f;
-  transition: width 0.4s ease;
-  width: 0;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-}
-
-.search-input:focus {
-  width: 200px;
-  opacity: 1;
+.search-section form {
+  display: flex;
+  align-items: center;
   position: relative;
+  transition: width 0.4s ease;
 }
 
-.search-btn {
+.search-section form.active {
+  width: 250px;
+}
+
+.search-toggle-btn {
   width: 36px;
   height: 36px;
   background-color: #2f4f4f;
@@ -100,18 +99,85 @@ body {
   justify-content: center;
   align-items: center;
   transition: background-color 0.3s ease;
-  position: absolute;
-  right: 0;
+  margin-right: 10px;
+  position: relative;
   z-index: 1;
 }
+.search-toggle-btn i {
+  font-size: 1.2em;
+  color: #f5deb3; /* Couleur beige clair */
+  transition: color 0.3s ease;
+}
 
-.search-btn:hover {
+.search-toggle-btn:hover i {
+  color: #8b4513; /* Couleur au survol */
+}
+.search-toggle-btn:hover {
   background-color: #8b4513; /* Couleur au survol */
 }
 
-.search-btn i {
+.search-input {
+  flex-grow: 1;
+  height: 36px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 18px;
+  background-color: #f5deb3;
+  color: #2f4f4f;
+  transition: width 0.4s ease, opacity 0.4s ease;
+  width: 0;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+}
+
+.search-input.active {
+  width: 200px;
+  opacity: 1;
+  position: relative;
+  padding-right: 36px; /* Ajustement pour le bouton de soumission */
+}
+
+.search-submit-btn {
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+  border: none;
+  color: #2f4f4f;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+}
+
+.search-submit-btn i {
   font-size: 1.2em;
+  color: #2f4f4f;
+}
+
+.add-novel-btn {
+  background-color: #28a745; /* Vert pour ajouter */
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin-left: 15px;
+}
+
+.add-novel-btn:hover {
+  background-color: #218838;
+}
+
+.login-btn,
+.register-btn {
+  background-color: #007bff; /* Bleu pour les boutons de connexion et d'inscription */
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin-left: 15px;
   color: #f5deb3;
+  text-decoration: none;
+}
+
+.login-btn:hover,
+.register-btn:hover {
+  background-color: #0056b3;
 }
 
 @media screen and (prefers-color-scheme: dark) {
