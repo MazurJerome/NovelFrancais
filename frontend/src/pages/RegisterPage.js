@@ -1,65 +1,65 @@
-// src/pages/RegisterPage.js
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/RegisterPage.css";
 
 function RegisterPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-
-  const { name, email, password } = formData;
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/register",
-        formData
-      );
-      console.log(res.data);
-      localStorage.setItem("token", res.data.token); // Stocker le token dans le localStorage
-      navigate("/");
-    } catch (err) {
-      console.error(err.response.data);
+      const response = await axios.post("http://localhost:5000/api/register", {
+        username,
+        email,
+        password,
+      });
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
+      }
+    } catch (error) {
+      setError("L'inscription a échoué. Veuillez réessayer.");
     }
   };
 
   return (
-    <div className="register-page">
+    <div className="register-container">
       <h2>Inscription</h2>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Nom"
-          value={name}
-          onChange={onChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={onChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={onChange}
-          required
-        />
-        <button type="submit">Inscription</button>
+      <form onSubmit={handleRegister}>
+        <div className="form-group">
+          <label>Nom d'utilisateur</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Mot de passe</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {error && <p className="error">{error}</p>}
+        <button type="submit">S'inscrire</button>
       </form>
     </div>
   );

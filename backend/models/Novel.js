@@ -1,21 +1,18 @@
 const mongoose = require("mongoose");
 
-const chapterSchema = new mongoose.Schema({
-  title: String,
-  link: String,
-  content: String,
+const ChapterSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  number: { type: Number, required: true },
+  readBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 
-const novelSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  alternativeName: String,
-  genre: [String], // Modifier ici pour accepter un tableau de chaînes
-  source: String,
-  status: String,
-  coverImage: String,
-  description: String,
-  chapters: [chapterSchema],
+const NovelSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  genres: [{ type: String }],
+  description: { type: String },
+  chapters: [ChapterSchema],
 });
 
-module.exports = mongoose.model("Novel", novelSchema);
+module.exports = mongoose.model("Novel", NovelSchema);

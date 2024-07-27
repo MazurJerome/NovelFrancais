@@ -1,53 +1,48 @@
-// src/pages/LoginPage.js
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/LoginPage.css";
 
 function LoginPage() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const { email, password } = formData;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const onSubmit = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:5000/api/login", formData);
-      console.log(res.data);
-      localStorage.setItem("token", res.data.token);
-      navigate("/");
-    } catch (err) {
-      console.error(err.response.data);
-    }
+    axios
+      .post("http://localhost:5000/api/login", { email, password })
+      .then((response) => {
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
+        window.location.reload(); // Reload the page to update the Navbar
+      })
+      .catch((error) => {
+        setError("Invalid credentials");
+      });
   };
 
   return (
     <div className="login-page">
-      <h2>Login</h2>
-      <form onSubmit={onSubmit}>
+      <h2>Connexion</h2>
+      <form onSubmit={handleLogin}>
+        <label htmlFor="email">Email:</label>
         <input
           type="email"
-          name="email"
-          placeholder="Email"
+          id="email"
           value={email}
-          onChange={onChange}
-          required
+          onChange={(e) => setEmail(e.target.value)}
         />
+        <label htmlFor="password">Mot de passe:</label>
         <input
           type="password"
-          name="password"
-          placeholder="Password"
+          id="password"
           value={password}
-          onChange={onChange}
-          required
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button type="submit">Se connecter</button>
+        {error && <p className="error">{error}</p>}
       </form>
     </div>
   );

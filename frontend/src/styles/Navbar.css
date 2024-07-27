@@ -1,10 +1,5 @@
-/* src/styles/Navbar.css */
-
 * {
-  border: 0;
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body,
@@ -17,11 +12,6 @@ input {
 body,
 input {
   color: #2f4f4f; /* Texte principal */
-}
-
-body,
-.search-bar {
-  display: flex;
 }
 
 body {
@@ -51,11 +41,12 @@ body {
   text-align: center;
 }
 
-.navbar-section:last-child {
+.navbar-section.right-section {
   text-align: right;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  position: relative;
 }
 
 .navbar a {
@@ -103,16 +94,9 @@ body {
   position: relative;
   z-index: 1;
 }
-.search-toggle-btn i {
-  font-size: 1.2em;
-  color: #f5deb3; /* Couleur beige clair */
-  transition: color 0.3s ease;
-}
 
-.search-toggle-btn:hover i {
-  color: #8b4513; /* Couleur au survol */
-}
-.search-toggle-btn:hover {
+.search-toggle-btn:hover,
+.auth-toggle-btn:hover {
   background-color: #8b4513; /* Couleur au survol */
 }
 
@@ -139,14 +123,22 @@ body {
 }
 
 .search-submit-btn {
-  width: 36px;
-  height: 36px;
+  width: 34px; /* Réduction de la largeur */
+  height: 34px; /* Réduction de la hauteur */
   background-color: transparent;
   border: none;
   color: #2f4f4f;
   cursor: pointer;
   position: absolute;
-  right: 0;
+  right: 1px; /* Ajustement de la position */
+  border-radius: 18px; /* Arrondi du bouton de soumission */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centrage de l'icône */
+}
+
+.search-submit-btn:hover {
+  background-color: #8b4513; /* Couleur au survol */
 }
 
 .search-submit-btn i {
@@ -154,30 +146,94 @@ body {
   color: #2f4f4f;
 }
 
+.suggestions-container {
+  position: absolute;
+  top: 50px; /* Ajustez selon votre design */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestion-item.selected {
+  background-color: #8b4513; /* Couleur de surbrillance */
+  color: #fff;
+  border-radius: 8px;
+  animation: glow 1s infinite;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px #8b4513;
+  }
+  50% {
+    box-shadow: 0 0 20px #8b4513;
+  }
+  100% {
+    box-shadow: 0 0 5px #8b4513;
+  }
+}
+
 .add-novel-btn {
   background-color: #28a745; /* Vert pour ajouter */
   padding: 5px 10px;
   border-radius: 8px;
   margin-left: 15px;
+  white-space: nowrap;
 }
 
 .add-novel-btn:hover {
   background-color: #218838;
 }
 
-.login-btn,
-.register-btn {
-  background-color: #007bff; /* Bleu pour les boutons de connexion et d'inscription */
+.auth-link {
+  background-color: #007bff; /* Bleu pour les liens d'authentification */
   padding: 5px 10px;
   border-radius: 8px;
-  margin-left: 15px;
-  color: #f5deb3;
-  text-decoration: none;
+  margin-bottom: 5px;
+  color: white;
+  text-align: center;
+  width: 100%;
 }
 
-.login-btn:hover,
-.register-btn:hover {
+.auth-link:hover {
   background-color: #0056b3;
+}
+
+.auth-toggle-btn {
+  width: 36px;
+  height: 36px;
+  background-color: #2f4f4f;
+  border: none;
+  border-radius: 18px;
+  color: #f5deb3;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  position: relative;
+  z-index: 1;
+  margin-left: 15px; /* Ajout de marge entre la barre de recherche et l'icône de connexion */
+}
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #2f4f4f;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 @media screen and (prefers-color-scheme: dark) {

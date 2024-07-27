@@ -1,0 +1,51 @@
+.profile-page {
+  padding: 20px;
+  background-color: #f5f5dc;
+  color: #2f4f4f;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-page h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.profile-page p {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.profile-page h3 {
+  font-size: 1.5em;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.profile-page ul {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-page li {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.logout-btn:hover {
+  background-color: #0056b3;
+}

@@ -45,6 +45,39 @@ const adminAuth = (req, res, next) => {
   next();
 };
 
+// Route pour marquer un chapitre comme lu
+app.post("/api/mark-chapter-as-read", auth, async (req, res) => {
+  const { novelId, chapterId } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const novel = await Novel.findById(novelId);
+    if (!novel) {
+      return res.status(404).json({ message: "Novel not found" });
+    }
+
+    const chapter = novel.chapters.id(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: "Chapter not found" });
+    }
+
+    user.readChapters = user.readChapters || {};
+    user.readChapters[novelId] = chapterId;
+
+    await user.save();
+
+    res.json({ message: "Chapter marked as read" });
+  } catch (err) {
+    console.error("Error marking chapter as read:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // Route pour obtenir tous les novels ou filtrer par titre
 app.get("/api/novels", async (req, res) => {
   const query = req.query.query;
@@ -52,7 +85,6 @@ app.get("/api/novels", async (req, res) => {
 
   try {
     if (query) {
-      // Filtre les novels en fonction du titre correspondant à la requête
       novels = await Novel.find({ title: { $regex: query, $options: "i" } });
     } else {
       novels = await Novel.find();
@@ -64,7 +96,6 @@ app.get("/api/novels", async (req, res) => {
   }
 });
 
-// Route pour obtenir un novel par ID avec tous les détails
 app.get("/api/novels/:id", async (req, res) => {
   try {
     const novel = await Novel.findById(req.params.id);
@@ -172,7 +203,10 @@ app.post("/api/register", async (req, res) => {
     if (user) {
       return res.status(400).json({ message: "User already exists" });
     }
-    user = new User({ username, email, password, role });
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    user = new User({ username, email, password: hashedPassword, role });
     await user.save();
     const payload = { user: { id: user.id, role: user.role } };
     jwt.sign(payload, "your_jwt_secret", { expiresIn: 3600 }, (err, token) => {
@@ -180,7 +214,7 @@ app.post("/api/register", async (req, res) => {
       res.json({ token });
     });
   } catch (err) {
-    console.error(err.message);
+    console.error("Error during registration:", err.message); // Ajout du log
     res.status(500).send("Server error");
   }
 });
@@ -188,13 +222,22 @@ app.post("/api/register", async (req, res) => {
 // Route pour la connexion
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
+  console.log(
+    "Received login request with email:",
+    email,
+    "and password:",
+    password
+  ); // Ajout du log
+
   try {
     const user = await User.findOne({ email });
     if (!user) {
+      console.log("User not found with email:", email); // Ajout du log
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log("Password mismatch for user with email:", email); // Ajout du log
       return res.status(400).json({ message: "Invalid credentials" });
     }
     const payload = { user: { id: user.id, role: user.role } };
@@ -203,10 +246,78 @@ app.post("/api/login", async (req, res) => {
       res.json({ token });
     });
   } catch (err) {
-    console.error(err.message);
+    console.error("Server error:", err.message); // Ajout du log
     res.status(500).send("Server error");
   }
 });
+
+// Route pour récupérer le profil de l'utilisateur
+app.get("/api/profile", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const readChapters = await Promise.all(
+      user.readChapters.map(async (entry) => {
+        const novel = await Novel.findById(entry.novelId);
+        const chapter = novel.chapters.id(entry.chapterId);
+        return {
+          title: novel.title,
+          lastChapter: {
+            title: chapter.title,
+            number: chapter.number,
+            _id: chapter._id,
+            novelId: novel._id,
+          },
+        };
+      })
+    );
+
+    res.json({
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+      lastChaptersRead: readChapters,
+    });
+  } catch (err) {
+    console.error("Error fetching profile:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Route pour marquer un chapitre comme lu
+app.post(
+  "/api/novels/:novelId/chapters/:chapterId/mark-as-read",
+  auth,
+  async (req, res) => {
+    try {
+      const { novelId, chapterId } = req.params;
+      const novel = await Novel.findById(novelId);
+      if (!novel) {
+        return res.status(404).json({ message: "Novel not found" });
+      }
+
+      const chapter = novel.chapters.id(chapterId);
+      if (!chapter) {
+        return res.status(404).json({ message: "Chapter not found" });
+      }
+
+      if (!chapter.readBy.includes(req.user.id)) {
+        chapter.readBy.push(req.user.id);
+        await novel.save();
+      }
+
+      res.json({ message: "Chapter marked as read" });
+    } catch (err) {
+      console.error("Error marking chapter as read:", err);
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -3,10 +3,14 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AddChapterPage from "./pages/AddChapterPage";
 import AddNovelPage from "./pages/AddNovelPage";
+import ChapterPage from "./pages/ChapterPage";
 import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
 import NovelPage from "./pages/NovelPage";
-import SearchResultsPage from "./pages/SearchResultsPage"; // Ajoutez cette ligne
-import "./styles/App.css"; // Assurez-vous que App.css est importé
+import ProfilePage from "./pages/ProfilePage";
+import RegisterPage from "./pages/RegisterPage";
+import SearchResultsPage from "./pages/SearchResultsPage";
+import "./styles/App.css";
 
 function App() {
   return (
@@ -18,8 +22,14 @@ function App() {
           <Route path="/novel/:id" element={<NovelPage />} />
           <Route path="/add-novel" element={<AddNovelPage />} />
           <Route path="/novel/:id/add-chapter" element={<AddChapterPage />} />
-          <Route path="/search" element={<SearchResultsPage />} />{" "}
-          {/* Ajoutez cette ligne */}
+          <Route
+            path="/novel/:novelId/chapters/:chapterId"
+            element={<ChapterPage />}
+          />
+          <Route path="/search" element={<SearchResultsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </div>
     </Router>
