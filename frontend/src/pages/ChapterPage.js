@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ChapterNavigation from "../components/ChapterNavigation";
 import FontSizeMenu from "../components/FontSizeMenu";
 import "../styles/ChapterPage.css";
@@ -10,6 +10,7 @@ function ChapterPage() {
   const [chapter, setChapter] = useState(null);
   const [chapters, setChapters] = useState([]);
   const [fontSize, setFontSize] = useState(16);
+  const [novelTitle, setNovelTitle] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ function ChapterPage() {
       .get(`http://localhost:5000/api/novels/${novelId}`)
       .then((response) => {
         setChapters(response.data.chapters);
+        setNovelTitle(response.data.title);
       })
       .catch((error) => {
         console.error("There was an error fetching the chapters!", error);
@@ -42,6 +44,9 @@ function ChapterPage() {
 
   return (
     <div className="chapter-page">
+      <Link to={`/novel/${novelId}`} className="back-to-novel-link">
+        &larr; {novelTitle}
+      </Link>
       {chapter ? (
         <>
           <h2>{chapter.title}</h2>

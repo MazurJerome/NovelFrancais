@@ -71,8 +71,8 @@ function NovelPage() {
               <p>
                 {isDescriptionExpanded
                   ? novel.description
-                  : `${novel.description.substring(0, 475)}...`}
-                {!isDescriptionExpanded && novel.description.length > 475 && (
+                  : `${novel.description.substring(0, 700)}...`}
+                {!isDescriptionExpanded && novel.description.length > 700 && (
                   <span
                     className="toggle-description"
                     onClick={toggleDescription}

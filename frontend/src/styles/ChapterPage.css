@@ -8,10 +8,24 @@
   justify-content: space-between;
   align-items: center;
 }
+.back-to-novel-link {
+  align-self: flex-start;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: none;
+  font-size: 1.2em;
+  transition: color 0.3s ease;
+}
+
+.back-to-novel-link:hover {
+  color: #0056b3;
+}
 
 .chapter-page h2 {
   display: flex;
   text-align: center;
+  justify-content: center;
+  width: 70%;
   margin: 20px 0; /* Ajouter de la marge en haut et en bas */
   font-size: 2em; /* Augmenter légèrement la taille de la police */
   margin: 20px auto; /* Centrer le titre et ajouter de la marge en haut et en bas */
@@ -27,6 +41,6 @@
 .chapter-content {
   padding: 20px; /* Marges internes pour harmoniser le texte */
   margin: 0 auto; /* Centrer le contenu */
-  max-width: 1000px; /* Limiter la largeur du contenu */
+  max-width: 100wh; /* Limiter la largeur du contenu */
   white-space: pre-wrap; /* Conserver les sauts de ligne et les espaces */
 }
