@@ -1,49 +1,76 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import ChapterNavigation from "../components/ChapterNavigation";
+import FontSizeMenu from "../components/FontSizeMenu";
 import "../styles/ChapterPage.css";
 
 function ChapterPage() {
   const { novelId, chapterId } = useParams();
   const [chapter, setChapter] = useState(null);
+  const [chapters, setChapters] = useState([]);
+  const [fontSize, setFontSize] = useState(16);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/novels/${novelId}/chapters/${chapterId}`)
       .then((response) => {
         setChapter(response.data);
-        markChapterAsRead();
       })
       .catch((error) => {
-        console.error("Error fetching chapter:", error);
+        console.error("There was an error fetching the chapter!", error);
+      });
+
+    axios
+      .get(`http://localhost:5000/api/novels/${novelId}`)
+      .then((response) => {
+        setChapters(response.data.chapters);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the chapters!", error);
       });
   }, [novelId, chapterId]);
 
-  const markChapterAsRead = () => {
-    axios
-      .post(
-        `http://localhost:5000/api/novels/${novelId}/chapters/${chapterId}/mark-as-read`,
-        {},
-        {
-          headers: { "x-auth-token": localStorage.getItem("token") },
-        }
-      )
-      .then((response) => {
-        console.log("Chapter marked as read");
-      })
-      .catch((error) => {
-        console.error("Error marking chapter as read:", error);
-      });
-  };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [chapterId]);
 
-  if (!chapter) {
-    return <div>Loading...</div>;
-  }
+  const handleChapterChange = (newIndex) => {
+    navigate(`/novel/${novelId}/chapters/${chapters[newIndex]._id}`);
+  };
 
   return (
     <div className="chapter-page">
-      <h2>{chapter.title}</h2>
-      <p>{chapter.content}</p>
+      {chapter ? (
+        <>
+          <h2>{chapter.title}</h2>
+          <ChapterNavigation
+            novelId={novelId}
+            chapterId={chapterId}
+            chapters={chapters}
+            onChange={handleChapterChange}
+          />
+          <FontSizeMenu fontSize={fontSize} setFontSize={setFontSize} />
+          <div
+            className="chapter-content"
+            style={{ fontSize: `${fontSize}px` }}
+          >
+            <p>
+              <strong>{chapter.title}</strong>
+            </p>
+            <p>{chapter.content}</p>
+          </div>
+          <ChapterNavigation
+            novelId={novelId}
+            chapterId={chapterId}
+            chapters={chapters}
+            onChange={handleChapterChange}
+          />
+        </>
+      ) : (
+        <p>Chargement...</p>
+      )}
     </div>
   );
 }

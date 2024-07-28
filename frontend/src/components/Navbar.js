@@ -116,12 +116,9 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-section">
         <Link to="/">Accueil</Link>
-        <Link to="/add-novel" className="add-novel-btn">
-          Ajouter un roman
-        </Link>
       </div>
       <div className="navbar-section middle-section">
-        <h1>Bienvenue sur la Bibliothèque</h1>
+        <h1>Bienvenue sur le site NovelFrancais</h1>
       </div>
       <div className="navbar-section right-section">
         <div className="search-section">

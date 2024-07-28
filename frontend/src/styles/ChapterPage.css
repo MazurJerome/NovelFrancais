@@ -1,17 +1,27 @@
 .chapter-page {
+  display: flex;
+  flex-direction: column;
   margin: 20px;
   padding-bottom: 60px; /* Ajout de marge en bas pour éviter le chevauchement */
   position: relative; /* Assurez-vous que le positionnement relatif est activé pour placer le menu */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .chapter-page h2 {
+  display: flex;
   text-align: center;
   margin: 20px 0; /* Ajouter de la marge en haut et en bas */
   font-size: 2em; /* Augmenter légèrement la taille de la police */
-  max-width: 70%; /* Limiter la largeur du titre */
   margin: 20px auto; /* Centrer le titre et ajouter de la marge en haut et en bas */
   word-wrap: break-word; /* Permettre le retour à la ligne si le texte est trop long */
   line-height: 1.5; /* Ajouter de l'espace entre les lignes */
+}
+
+.chapter-controls {
+  display: flex;
+  gap: 10px;
 }
 
 .chapter-content {
@@ -19,8 +29,4 @@
   margin: 0 auto; /* Centrer le contenu */
   max-width: 1000px; /* Limiter la largeur du contenu */
   white-space: pre-wrap; /* Conserver les sauts de ligne et les espaces */
-}
-
-.chapter-navigation {
-  margin: 20px 0; /* Ajouter de la marge en haut et en bas */
 }

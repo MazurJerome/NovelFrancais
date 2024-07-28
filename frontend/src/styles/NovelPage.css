@@ -35,10 +35,13 @@
 
 .novel-description p {
   margin: 0;
+  white-space: pre-wrap;
 }
 
 .novel-description.expanded {
   height: auto;
+  min-height: 400px;
+  margin-bottom: 25px;
 }
 
 .toggle-description {
@@ -95,6 +98,7 @@
 
 .chapter-link:hover {
   color: #0056b3;
+  background-color: #f5deb3;
 }
 
 .delete-chapter-btn {

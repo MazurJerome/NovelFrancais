@@ -1,50 +1,53 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import "../styles/ChapterNavigation.css";
 
 const ChapterNavigation = ({ novelId, chapterId, chapters, onChange }) => {
-  const chapterIndex = chapters.findIndex((chap) => chap._id === chapterId);
+  const currentIndex = chapters.findIndex(
+    (chapter) => chapter._id === chapterId
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft" && currentIndex > 0) {
+        onChange(currentIndex - 1);
+      } else if (e.key === "ArrowRight" && currentIndex < chapters.length - 1) {
+        onChange(currentIndex + 1);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentIndex, chapters, onChange]);
 
   return (
     <div className="chapter-navigation">
-      <Link
-        to={
-          chapterIndex > 0
-            ? `/novel/${novelId}/chapters/${chapters[chapterIndex - 1]._id}`
-            : "#"
-        }
-        className={`nav-link ${chapterIndex <= 0 ? "disabled" : ""}`}
-        onClick={(e) => {
-          if (chapterIndex <= 0) e.preventDefault();
-        }}
+      <button
+        onClick={() => currentIndex > 0 && onChange(currentIndex - 1)}
+        disabled={currentIndex === 0}
       >
-        &lt; Chapitre précédent
-      </Link>
+        <i className="fas fa-arrow-left"></i> Chapitre précédent
+      </button>
       <select
-        value={chapterIndex}
-        onChange={(e) => onChange(parseInt(e.target.value, 10))}
+        value={chapterId}
+        onChange={(e) =>
+          onChange(
+            chapters.findIndex((chapter) => chapter._id === e.target.value)
+          )
+        }
       >
-        {chapters.map((chap, i) => (
-          <option key={chap._id} value={i}>
-            Chapitre {i + 1}
+        {chapters.map((chapter, index) => (
+          <option key={chapter._id} value={chapter._id}>
+            Chapter {index + 1}: {chapter.title}
           </option>
         ))}
       </select>
-      <Link
-        to={
-          chapterIndex < chapters.length - 1
-            ? `/novel/${novelId}/chapters/${chapters[chapterIndex + 1]._id}`
-            : "#"
+      <button
+        onClick={() =>
+          currentIndex < chapters.length - 1 && onChange(currentIndex + 1)
         }
-        className={`nav-link ${
-          chapterIndex >= chapters.length - 1 ? "disabled" : ""
-        }`}
-        onClick={(e) => {
-          if (chapterIndex >= chapters.length - 1) e.preventDefault();
-        }}
+        disabled={currentIndex === chapters.length - 1}
       >
-        Chapitre suivant &gt;
-      </Link>
+        Chapitre suivant <i className="fas fa-arrow-right"></i>
+      </button>
     </div>
   );
 };

@@ -20,26 +20,6 @@ function NovelPage() {
       });
   }, [id]);
 
-  const handleAddChapter = () => {
-    navigate(`/novel/${id}/add-chapter`);
-  };
-
-  const handleDeleteChapter = (chapterId) => {
-    axios
-      .delete(`http://localhost:5000/api/novels/${id}/chapters/${chapterId}`)
-      .then((response) => {
-        setNovel((prevNovel) => ({
-          ...prevNovel,
-          chapters: prevNovel.chapters.filter(
-            (chapter) => chapter._id !== chapterId
-          ),
-        }));
-      })
-      .catch((error) => {
-        console.error("There was an error deleting the chapter!", error);
-      });
-  };
-
   const markChapterAsRead = (chapterId) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -141,18 +121,9 @@ function NovelPage() {
                     >
                       {chapter.title}
                     </button>
-                    <button
-                      onClick={() => handleDeleteChapter(chapter._id)}
-                      className="delete-chapter-btn"
-                    >
-                      Supprimer
-                    </button>
                   </li>
                 ))}
               </ul>
-              <button className="add-chapter-btn" onClick={handleAddChapter}>
-                Ajouter un chapitre
-              </button>
             </div>
           </div>
         </>

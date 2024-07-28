@@ -1,8 +1,6 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import AddChapterPage from "./pages/AddChapterPage";
-import AddNovelPage from "./pages/AddNovelPage";
 import ChapterPage from "./pages/ChapterPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -20,8 +18,6 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/novel/:id" element={<NovelPage />} />
-          <Route path="/add-novel" element={<AddNovelPage />} />
-          <Route path="/novel/:id/add-chapter" element={<AddChapterPage />} />
           <Route
             path="/novel/:novelId/chapters/:chapterId"
             element={<ChapterPage />}
