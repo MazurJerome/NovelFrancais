@@ -9,8 +9,8 @@ const Footer = () => {
           <h3>À propos de nous</h3>
           <p>
             Bienvenue sur notre site. Nous vous offrons une plateforme pour lire
-            et apprécier une variété de romans. Restez à l'écoute pour plus de
-            mises à jour.
+            et apprécier une variété de romans directement traduits en français.
+            Restez à l'écoute pour plus de mises à jour.
           </p>
         </div>
         <div className="footer-section links">
@@ -22,19 +22,20 @@ const Footer = () => {
             <li>
               <a href="/terms-conditions">Termes et conditions</a>
             </li>
-            <li>
-              <a href="/contact">Contactez-nous</a>
-            </li>
           </ul>
         </div>
         <div className="footer-section contact">
-          <h3>Contactez-nous</h3>
-          <p>Email : info@example.com</p>
-          <p>Téléphone : +123 456 7890</p>
+          <h3>Contactez-nous par mail</h3>
+          <p>
+            <a href="mailto:mazurjerome42@gmail.com" className="contact-link">
+              <i className="fas fa-envelope"></i>
+            </a>
+          </p>
         </div>
       </div>
       <div className="footer-bottom">
-        &copy; {new Date().getFullYear()} Votre Société. Tous droits réservés.
+        &copy; {new Date().getFullYear()} NovelFrancais.fr. Tous droits
+        réservés.
       </div>
     </footer>
   );

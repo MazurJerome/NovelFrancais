@@ -9,6 +9,9 @@ import NovelPage from "./pages/NovelPage";
 import ProfilePage from "./pages/ProfilePage";
 import RegisterPage from "./pages/RegisterPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import TermsConditions from "./pages/TermsCondition";
+
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import "./styles/App.css";
 
 function App() {
@@ -27,6 +30,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
         </Routes>
         <Footer />
       </div>
