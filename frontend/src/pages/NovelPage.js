@@ -20,34 +20,8 @@ function NovelPage() {
       });
   }, [id]);
 
-  const markChapterAsRead = (chapterId) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    axios
-      .post(
-        `http://localhost:5000/api/novels/${id}/chapters/${chapterId}/mark-as-read`,
-        {},
-        {
-          headers: {
-            "x-auth-token": token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("Chapter marked as read:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error marking chapter as read:", error);
-      });
-  };
-
-  const handleChapterClick = (chapterId) => {
-    markChapterAsRead(chapterId);
-    navigate(`/novel/${id}/chapters/${chapterId}`);
+  const handleChapterClick = (chapterNumber) => {
+    navigate(`/novel/${id}/chapters/${chapterNumber}`);
   };
 
   const toggleDescription = () => {
@@ -117,7 +91,7 @@ function NovelPage() {
                   <li key={index} className="chapter-item">
                     <button
                       className="chapter-link"
-                      onClick={() => handleChapterClick(chapter._id)}
+                      onClick={() => handleChapterClick(chapter.number)}
                     >
                       {chapter.title}
                     </button>

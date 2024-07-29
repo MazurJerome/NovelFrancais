@@ -3,7 +3,7 @@ import "../styles/ChapterNavigation.css";
 
 const ChapterNavigation = ({ novelId, chapterId, chapters, onChange }) => {
   const currentIndex = chapters.findIndex(
-    (chapter) => chapter._id === chapterId
+    (chapter) => chapter.number === parseInt(chapterId, 10)
   );
 
   useEffect(() => {
@@ -30,13 +30,15 @@ const ChapterNavigation = ({ novelId, chapterId, chapters, onChange }) => {
         value={chapterId}
         onChange={(e) =>
           onChange(
-            chapters.findIndex((chapter) => chapter._id === e.target.value)
+            chapters.findIndex(
+              (chapter) => chapter.number === parseInt(e.target.value, 10)
+            )
           )
         }
       >
         {chapters.map((chapter, index) => (
-          <option key={chapter._id} value={chapter._id}>
-            Chapter {index + 1}: {chapter.title}
+          <option key={chapter.number} value={chapter.number}>
+            Chapitre {index + 1}: {chapter.title}
           </option>
         ))}
       </select>

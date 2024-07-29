@@ -45,39 +45,6 @@ const adminAuth = (req, res, next) => {
   next();
 };
 
-// Route pour marquer un chapitre comme lu
-app.post("/api/mark-chapter-as-read", auth, async (req, res) => {
-  const { novelId, chapterId } = req.body;
-  const userId = req.user.id;
-
-  try {
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const novel = await Novel.findById(novelId);
-    if (!novel) {
-      return res.status(404).json({ message: "Novel not found" });
-    }
-
-    const chapter = novel.chapters.id(chapterId);
-    if (!chapter) {
-      return res.status(404).json({ message: "Chapter not found" });
-    }
-
-    user.readChapters = user.readChapters || {};
-    user.readChapters[novelId] = chapterId;
-
-    await user.save();
-
-    res.json({ message: "Chapter marked as read" });
-  } catch (err) {
-    console.error("Error marking chapter as read:", err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
 // Route pour obtenir tous les novels ou filtrer par titre
 app.get("/api/novels", async (req, res) => {
   const query = req.query.query;
@@ -96,6 +63,7 @@ app.get("/api/novels", async (req, res) => {
   }
 });
 
+// Route pour obtenir un novel par ID
 app.get("/api/novels/:id", async (req, res) => {
   try {
     const novel = await Novel.findById(req.params.id);
@@ -109,15 +77,17 @@ app.get("/api/novels/:id", async (req, res) => {
   }
 });
 
-// Route pour obtenir un chapitre spécifique par novel ID et chapitre index
-app.get("/api/novels/:novelId/chapters/:chapterId", async (req, res) => {
+// Route pour obtenir un chapitre spécifique par novel ID et numéro de chapitre
+app.get("/api/novels/:novelId/chapters/:chapterNumber", async (req, res) => {
   try {
     const novel = await Novel.findById(req.params.novelId);
     if (!novel) {
       return res.status(404).json({ message: "Novel not found" });
     }
 
-    const chapter = novel.chapters.id(req.params.chapterId);
+    const chapter = novel.chapters.find(
+      (chap) => chap.number === parseInt(req.params.chapterNumber)
+    );
     if (!chapter) {
       return res.status(404).json({ message: "Chapter not found" });
     }
@@ -127,73 +97,6 @@ app.get("/api/novels/:novelId/chapters/:chapterId", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Route pour créer un novel (réservée aux administrateurs)
-app.post("/api/novels", auth, adminAuth, async (req, res) => {
-  try {
-    const newNovel = new Novel(req.body);
-    await newNovel.save();
-    res.status(201).json(newNovel);
-  } catch (err) {
-    console.error("Error adding novel:", err);
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Route pour ajouter un chapitre à un novel existant (réservée aux administrateurs)
-app.post("/api/novels/:id/chapters", auth, adminAuth, async (req, res) => {
-  try {
-    const novel = await Novel.findById(req.params.id);
-    if (!novel) {
-      return res.status(404).json({ message: "Novel not found" });
-    }
-    novel.chapters.push(req.body);
-    await novel.save();
-    res.status(201).json(novel);
-  } catch (err) {
-    console.error("Error adding chapter:", err);
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Route pour supprimer un novel (réservée aux administrateurs)
-app.delete("/api/novels/:id", auth, adminAuth, async (req, res) => {
-  try {
-    const novel = await Novel.findByIdAndDelete(req.params.id);
-    if (!novel) {
-      return res.status(404).json({ message: "Novel not found" });
-    }
-    res.json({ message: "Novel deleted" });
-  } catch (err) {
-    console.error("Error deleting novel:", err);
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Route pour supprimer un chapitre (réservée aux administrateurs)
-app.delete(
-  "/api/novels/:novelId/chapters/:chapterId",
-  auth,
-  adminAuth,
-  async (req, res) => {
-    try {
-      const novel = await Novel.findById(req.params.novelId);
-      if (!novel) {
-        return res.status(404).json({ message: "Novel not found" });
-      }
-      const chapter = novel.chapters.id(req.params.chapterId);
-      if (!chapter) {
-        return res.status(404).json({ message: "Chapter not found" });
-      }
-      novel.chapters.pull(req.params.chapterId);
-      await novel.save();
-      res.json({ message: "Chapter deleted" });
-    } catch (err) {
-      console.error("Error deleting chapter:", err);
-      res.status(500).json({ message: err.message });
-    }
-  }
-);
 
 // Route pour l'inscription
 app.post("/api/register", async (req, res) => {
@@ -214,7 +117,7 @@ app.post("/api/register", async (req, res) => {
       res.json({ token });
     });
   } catch (err) {
-    console.error("Error during registration:", err.message); // Ajout du log
+    console.error("Error during registration:", err.message);
     res.status(500).send("Server error");
   }
 });
@@ -227,7 +130,7 @@ app.post("/api/login", async (req, res) => {
     email,
     "and password:",
     password
-  ); // Ajout du log
+  );
 
   try {
     const user = await User.findOne({ email });
@@ -251,7 +154,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// Route pour récupérer le profil de l'utilisateur
+// Route pour récupérer le profil de l'utilisateur sans chapitres lus
 app.get("/api/profile", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -259,65 +162,17 @@ app.get("/api/profile", auth, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const readChapters = await Promise.all(
-      user.readChapters.map(async (entry) => {
-        const novel = await Novel.findById(entry.novelId);
-        const chapter = novel.chapters.id(entry.chapterId);
-        return {
-          title: novel.title,
-          lastChapter: {
-            title: chapter.title,
-            number: chapter.number,
-            _id: chapter._id,
-            novelId: novel._id,
-          },
-        };
-      })
-    );
-
     res.json({
       user: {
         id: user._id,
         username: user.username,
         email: user.email,
       },
-      lastChaptersRead: readChapters,
     });
   } catch (err) {
     console.error("Error fetching profile:", err);
     res.status(500).json({ message: err.message });
   }
 });
-
-// Route pour marquer un chapitre comme lu
-app.post(
-  "/api/novels/:novelId/chapters/:chapterId/mark-as-read",
-  auth,
-  async (req, res) => {
-    try {
-      const { novelId, chapterId } = req.params;
-      const novel = await Novel.findById(novelId);
-      if (!novel) {
-        return res.status(404).json({ message: "Novel not found" });
-      }
-
-      const chapter = novel.chapters.id(chapterId);
-      if (!chapter) {
-        return res.status(404).json({ message: "Chapter not found" });
-      }
-
-      if (!chapter.readBy.includes(req.user.id)) {
-        chapter.readBy.push(req.user.id);
-        await novel.save();
-      }
-
-      res.json({ message: "Chapter marked as read" });
-    } catch (err) {
-      console.error("Error marking chapter as read:", err);
-      res.status(500).json({ message: err.message });
-    }
-  }
-);
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

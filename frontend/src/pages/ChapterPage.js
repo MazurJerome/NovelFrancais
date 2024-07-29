@@ -39,7 +39,7 @@ function ChapterPage() {
   }, [chapterId]);
 
   const handleChapterChange = (newIndex) => {
-    navigate(`/novel/${novelId}/chapters/${chapters[newIndex]._id}`);
+    navigate(`/novel/${novelId}/chapters/${chapters[newIndex].number}`);
   };
 
   return (
