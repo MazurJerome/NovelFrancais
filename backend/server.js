@@ -52,9 +52,11 @@ app.get("/api/novels", async (req, res) => {
 
   try {
     if (query) {
-      novels = await Novel.find({ title: { $regex: query, $options: "i" } });
+      novels = await Novel.find({
+        title: { $regex: query, $options: "i" },
+      }).sort({ createdAt: -1 });
     } else {
-      novels = await Novel.find();
+      novels = await Novel.find().sort({ createdAt: -1 });
     }
     res.json(novels);
   } catch (err) {
@@ -73,6 +75,29 @@ app.get("/api/novels/:id", async (req, res) => {
     res.json(novel);
   } catch (err) {
     console.error("Error fetching novel:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Route pour obtenir les novels par genre
+app.get("/api/novels/genre/:genre", async (req, res) => {
+  try {
+    const genre = req.params.genre;
+    const novels = await Novel.find({ genres: genre });
+    res.json(novels);
+  } catch (err) {
+    console.error("Error fetching novels by genre:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Route pour obtenir les novels terminés
+app.get("/api/novels/status/Finis", async (req, res) => {
+  try {
+    const novels = await Novel.find({ status: "Finis" });
+    res.json(novels);
+  } catch (err) {
+    console.error("Error fetching completed novels:", err);
     res.status(500).json({ message: err.message });
   }
 });

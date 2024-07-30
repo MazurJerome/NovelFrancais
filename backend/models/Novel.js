@@ -9,13 +9,14 @@ const ChapterSchema = new mongoose.Schema({
 const NovelSchema = new mongoose.Schema({
   title: { type: String, required: true },
   author: { type: String, required: true },
-  alternativeName: { type: String }, // Ajoutez cette ligne
+  alternativeName: [{ type: String }], // Ajoutez cette ligne
   genres: [{ type: String }],
   description: { type: String },
   coverImage: { type: String },
   source: { type: String },
   status: { type: String },
   chapters: [ChapterSchema],
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Novel", NovelSchema);

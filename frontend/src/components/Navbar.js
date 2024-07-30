@@ -112,10 +112,17 @@ function Navbar() {
     navigate("/");
   };
 
+  const handleHomeClick = () => {
+    navigate("/");
+    window.location.reload(); // Reset the state in HomePage component
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-section">
-        <Link to="/">Accueil</Link>
+        <Link to="/" onClick={handleHomeClick}>
+          Accueil
+        </Link>
       </div>
       <div className="navbar-section middle-section">
         <h1>Bienvenue sur le site NovelFrancais</h1>

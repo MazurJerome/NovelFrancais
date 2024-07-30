@@ -75,7 +75,10 @@ function NovelPage() {
                 <strong>Nom alternatif:</strong> {novel.alternativeName}
               </p>
               <p>
-                <strong>Genre:</strong> {novel.genre.join(", ")}
+                <strong>Genre:</strong>{" "}
+                {Array.isArray(novel.genres)
+                  ? novel.genres.join(", ")
+                  : "Non spécifié"}
               </p>
               <p>
                 <strong>Source:</strong> {novel.source}
