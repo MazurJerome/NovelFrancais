@@ -1,9 +1,8 @@
 .profile-page {
-  padding: 20px;
-  background-color: #f5f5dc;
+  text-align: center;
+  margin: 20px;
   color: #2f4f4f;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: "Hind", sans-serif;
 }
 
 .profile-page h2 {
@@ -11,41 +10,152 @@
   margin-bottom: 20px;
 }
 
-.profile-page p {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-}
-
-.profile-page h3 {
-  font-size: 1.5em;
-  margin-top: 30px;
-  margin-bottom: 15px;
-}
-
-.profile-page ul {
-  list-style: none;
-  padding: 0;
-}
-
-.profile-page li {
-  background-color: #fff;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.logout-btn {
+.profile-page .novel-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
   margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+}
+
+.profile-page .novel-card {
+  background-color: #f5deb3;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 25px;
+  width: 200px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Aligner les éléments en bas */
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.profile-page .novel-card:hover {
+  transform: scale(1.05);
+}
+
+.profile-page .novel-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Aligner les éléments en bas */
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.profile-page .novel-card-image {
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  filter: brightness(
+    0.7
+  ); /* Pour assombrir l'image et faire ressortir le texte */
+}
+
+.profile-page .novel-card-content {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-page .novel-card-content .chap-read {
+  position: absolute;
+  top: 15vh;
+  z-index: 1;
+  padding: 10px;
+  font-size: 1.7em;
+  color: #f5deb3;
+}
+
+.profile-page .novel-card-content h3 {
+  z-index: 1;
+  position: absolute;
+  opacity: 0.7;
+  bottom: 0;
+  width: 100%;
+}
+
+.profile-page .novel-card-content h3 {
+  margin: 10px 0 0 0;
+  font-size: 1.2em;
+}
+
+.profile-page .delete-novel-btn {
+  background-color: #ff6347;
   border: none;
+  color: white;
+  font-size: 0.9em;
+  border-radius: 0 0 8px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.6s ease;
+  display: inline-block;
+  width: auto;
+  max-width: 200px;
+  z-index: 2;
+}
+
+.profile-page .delete-novel-btn:hover {
+  background-color: #e5533d;
+  transform: scale(1.05);
+}
+
+.profile-page .logout-btn,
+.profile-page .login-btn {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1em;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+  width: auto;
+  max-width: 200px;
 }
 
-.logout-btn:hover {
-  background-color: #0056b3;
+.profile-page .login-btn {
+  background-color: #28a745;
+  border: 2px solid #2f4f4f;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.profile-page .login-btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-color: #28a745;
+  }
+  50% {
+    transform: scale(1.1);
+    background-color: #218838;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #28a745;
+  }
+}
+
+.profile-page .login-btn:focus {
+  outline: none;
+}
+
+.profile-page .emoji {
+  font-size: 3em;
+  margin-bottom: 20px;
 }

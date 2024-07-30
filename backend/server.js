@@ -98,6 +98,28 @@ app.get("/api/novels/:novelId/chapters/:chapterNumber", async (req, res) => {
   }
 });
 
+// Route pour récupérer le profil de l'utilisateur avec les chapitres lus
+app.get("/api/profile", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        readNovels: user.readNovels || [], // Inclure readNovels dans la réponse
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching profile:", err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Route pour l'inscription
 app.post("/api/register", async (req, res) => {
   const { username, email, password, role } = req.body;
@@ -154,25 +176,79 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// Route pour récupérer le profil de l'utilisateur sans chapitres lus
-app.get("/api/profile", auth, async (req, res) => {
+// Route pour marquer un chapitre comme lu et mettre à jour les informations de lecture de l'utilisateur
+app.post(
+  "/api/novels/:novelId/chapters/:chapterNumber/mark-as-read",
+  auth,
+  async (req, res) => {
+    try {
+      const { novelId, chapterNumber } = req.params;
+      const userId = req.user.id;
+
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const novel = await Novel.findById(novelId);
+      if (!novel) {
+        return res.status(404).json({ message: "Novel not found" });
+      }
+
+      const chapter = novel.chapters.find(
+        (chap) => chap.number === parseInt(chapterNumber)
+      );
+      if (!chapter) {
+        return res.status(404).json({ message: "Chapter not found" });
+      }
+
+      const readNovelIndex = user.readNovels.findIndex(
+        (rn) => rn.novelId.toString() === novelId
+      );
+
+      if (readNovelIndex > -1) {
+        if (user.readNovels[readNovelIndex].lastChapterRead < chapter.number) {
+          user.readNovels[readNovelIndex].lastChapterRead = chapter.number;
+        }
+      } else {
+        user.readNovels.push({
+          novelId: novel._id,
+          novelTitle: novel.title,
+          lastChapterRead: chapter.number,
+          coverImage: novel.coverImage, // Ajouter coverImage ici
+        });
+      }
+
+      await user.save();
+      res.json({ message: "Chapter marked as read" });
+    } catch (err) {
+      console.error("Error marking chapter as read:", err);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+);
+// Ajout de la route pour supprimer un roman de la liste de lecture d'un utilisateur
+app.delete("/api/profile/novels/:novelId", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const userId = req.user.id;
+    const { novelId } = req.params;
+
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      },
-    });
+    user.readNovels = user.readNovels.filter(
+      (novel) => novel.novelId.toString() !== novelId
+    );
+
+    await user.save();
+    res.json({ message: "Novel removed from reading list" });
   } catch (err) {
-    console.error("Error fetching profile:", err);
-    res.status(500).json({ message: err.message });
+    console.error("Error removing novel from reading list:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

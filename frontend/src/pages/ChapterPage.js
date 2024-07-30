@@ -1,5 +1,6 @@
+// ChapterPage.js
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ChapterNavigation from "../components/ChapterNavigation";
 import FontSizeMenu from "../components/FontSizeMenu";
@@ -13,11 +14,37 @@ function ChapterPage() {
   const [novelTitle, setNovelTitle] = useState("");
   const navigate = useNavigate();
 
+  const markChapterAsRead = useCallback(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    axios
+      .post(
+        `http://localhost:5000/api/novels/${novelId}/chapters/${chapterId}/mark-as-read`,
+        {},
+        {
+          headers: {
+            "x-auth-token": token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Chapter marked as read:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error marking chapter as read:", error);
+      });
+  }, [novelId, chapterId, navigate]);
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/novels/${novelId}/chapters/${chapterId}`)
       .then((response) => {
         setChapter(response.data);
+        markChapterAsRead();
       })
       .catch((error) => {
         console.error("There was an error fetching the chapter!", error);
@@ -32,7 +59,7 @@ function ChapterPage() {
       .catch((error) => {
         console.error("There was an error fetching the chapters!", error);
       });
-  }, [novelId, chapterId]);
+  }, [novelId, chapterId, markChapterAsRead]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -41,7 +41,9 @@ function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Se connecter</button>
+        <button type="submit" className="login-btn">
+          Se connecter
+        </button>
         {error && <p className="error">{error}</p>}
       </form>
     </div>

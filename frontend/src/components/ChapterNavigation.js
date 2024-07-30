@@ -1,3 +1,4 @@
+// ChapterNavigation.js
 import React, { useEffect } from "react";
 import "../styles/ChapterNavigation.css";
 

@@ -1,5 +1,6 @@
 .font-size-menu {
   position: absolute;
+  z-index: 1;
   top: 5px;
   right: 5px;
   background-color: #2f4f4f;
