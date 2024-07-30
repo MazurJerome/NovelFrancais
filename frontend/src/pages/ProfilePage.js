@@ -5,6 +5,7 @@ import "../styles/ProfilePage.css";
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
+  const [novelUpdates, setNovelUpdates] = useState({});
   const [isTokenValid, setIsTokenValid] = useState(true);
   const navigate = useNavigate();
 
@@ -40,8 +41,25 @@ function ProfilePage() {
         });
 
         response.data.user.readNovels = uniqueNovels;
-
         setProfile(response.data);
+
+        // Fetch latest chapters for each novel
+        uniqueNovels.forEach((novel) => {
+          axios
+            .get(`http://localhost:5000/api/novels/${novel.novelId}`)
+            .then((novelResponse) => {
+              setNovelUpdates((prevUpdates) => ({
+                ...prevUpdates,
+                [novel.novelId]: novelResponse.data.chapters.length,
+              }));
+            })
+            .catch((error) => {
+              console.error(
+                `Error fetching novel ${novel.novelId} details:`,
+                error
+              );
+            });
+        });
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
@@ -116,6 +134,12 @@ function ProfilePage() {
               <div className="novel-card-content">
                 <p className="chap-read">Chapitre {novel.lastChapterRead}</p>
                 <h3>{novel.novelTitle}</h3>
+                {novelUpdates[novel.novelId] &&
+                  novelUpdates[novel.novelId] > novel.lastChapterRead && (
+                    <p className="new-chapter-available">
+                      Nouveau chapitre disponible!
+                    </p>
+                  )}
               </div>
             </Link>
             <button
