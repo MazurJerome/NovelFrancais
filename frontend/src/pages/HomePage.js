@@ -53,9 +53,9 @@ function HomePage() {
     setSelectedGenre(null);
     setShowCompleted(true);
     axios
-      .get("http://localhost:5000/api/novels?status=Finis")
+      .get("http://localhost:5000/api/novels/status/Finis")
       .then((response) => {
-        setNovels(response.data.filter((novel) => novel.status === "Finis"));
+        setNovels(response.data);
       })
       .catch((error) => {
         console.error(
@@ -113,11 +113,9 @@ function HomePage() {
             <>
               <h3>Romans terminés</h3>
               <div className="novel-list">
-                {novels
-                  .filter((novel) => novel.status === "Finis")
-                  .map((novel) => (
-                    <NovelCard key={novel._id} novel={novel} />
-                  ))}
+                {novels.map((novel) => (
+                  <NovelCard key={novel._id} novel={novel} />
+                ))}
               </div>
             </>
           )}

@@ -193,15 +193,6 @@ function Navbar() {
             )}
           </div>
         ) : (
-          <button
-            type="button"
-            className="auth-toggle-btn"
-            onClick={toggleAuth}
-          >
-            <i className={`fa ${isAuthActive ? "fa-minus" : "fa-user"}`}></i>
-          </button>
-        )}
-        {!isLoggedIn && isAuthActive && (
           <div className="auth-buttons">
             <Link to="/login" className="auth-link">
               Connexion
