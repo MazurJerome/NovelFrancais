@@ -11,21 +11,29 @@ input {
 
 body,
 input {
-  color: #2f4f4f; /* Texte principal */
+  color: #2f4f4f;
 }
 
 body {
-  background: #f5f5dc; /* Arrière-plan principal */
+  background: #f5f5dc;
   height: 100vh;
 }
 
 .navbar {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #2f4f4f; /* Header et navigation */
-  color: #f5deb3; /* Texte beige clair */
+  background-color: #40545c;
+  color: #f5deb3;
   padding: 10px 20px;
+}
+
+.navbar-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
 }
 
 .navbar-section {
