@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import imgHead from "../head.png";
 import "../styles/Navbar.css";
 
 function Navbar() {
@@ -120,96 +119,89 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-menu">
-        <div className="navbar-section">
-          <Link to="/" onClick={handleHomeClick}>
-            Accueil
-          </Link>
-        </div>
-        <div className="navbar-section middle-section">
-          <h1>Bienvenue sur le site NovelFrancais</h1>
-        </div>
-        <div className="navbar-section right-section">
-          <div className="search-section">
-            <form
-              onSubmit={handleSearch}
-              className={isSearchActive ? "active" : ""}
+      <div className="navbar-section">
+        <Link to="/" onClick={handleHomeClick}>
+          Accueil
+        </Link>
+      </div>
+      <div className="navbar-section middle-section">
+        <h1>Bienvenue sur le site NovelFrancais</h1>
+      </div>
+      <div className="navbar-section right-section">
+        <div className="search-section">
+          <form
+            onSubmit={handleSearch}
+            className={isSearchActive ? "active" : ""}
+          >
+            <button
+              type="button"
+              className="search-toggle-btn"
+              onClick={toggleSearch}
             >
-              <button
-                type="button"
-                className="search-toggle-btn"
-                onClick={toggleSearch}
-              >
-                <i
-                  className={`fa ${isSearchActive ? "fa-minus" : "fa-search"}`}
-                ></i>
+              <i
+                className={`fa ${isSearchActive ? "fa-minus" : "fa-search"}`}
+              ></i>
+            </button>
+            <input
+              ref={searchInputRef}
+              type="text"
+              className={`search-input ${isSearchActive ? "active" : ""}`}
+              placeholder="Rechercher..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {isSearchActive && (
+              <button type="submit" className="search-submit-btn search-icon">
+                <i className="fa fa-arrow-right"></i>
               </button>
-              <input
-                ref={searchInputRef}
-                type="text"
-                className={`search-input ${isSearchActive ? "active" : ""}`}
-                placeholder="Rechercher..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {isSearchActive && (
-                <button type="submit" className="search-submit-btn search-icon">
-                  <i className="fa fa-arrow-right"></i>
-                </button>
-              )}
-            </form>
-            {suggestions.length > 0 && (
-              <div className="suggestions-container">
-                {suggestions.map((suggestion, index) => (
-                  <div
-                    key={suggestion._id}
-                    className={`suggestion-item ${
-                      index === selectedIndex ? "selected" : ""
-                    }`}
-                    onMouseDown={() => handleSuggestionClick(suggestion)}
-                  >
-                    {suggestion.title}
-                  </div>
-                ))}
-              </div>
             )}
-          </div>
-          {isLoggedIn ? (
-            <div className="profile-section">
-              <button
-                type="button"
-                className="auth-toggle-btn"
-                onClick={toggleAuth}
-              >
-                <i
-                  className={`fa ${isAuthActive ? "fa-minus" : "fa-user"}`}
-                ></i>
-              </button>
-              {isAuthActive && (
-                <div className="auth-buttons">
-                  <Link to="/profile" className="auth-link">
-                    Mon Profil
-                  </Link>
-                  <button onClick={handleLogout} className="auth-link">
-                    Déconnexion
-                  </button>
+          </form>
+          {suggestions.length > 0 && (
+            <div className="suggestions-container">
+              {suggestions.map((suggestion, index) => (
+                <div
+                  key={suggestion._id}
+                  className={`suggestion-item ${
+                    index === selectedIndex ? "selected" : ""
+                  }`}
+                  onMouseDown={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion.title}
                 </div>
-              )}
-            </div>
-          ) : (
-            <div className="auth-buttons">
-              <Link to="/login" className="auth-link">
-                Connexion
-              </Link>
-              <Link to="/register" className="auth-link">
-                Inscription
-              </Link>
+              ))}
             </div>
           )}
         </div>
-      </div>
-      <div className="navbar-image">
-        <img src={imgHead} alt="head" />
+        {isLoggedIn ? (
+          <div className="profile-section">
+            <button
+              type="button"
+              className="auth-toggle-btn"
+              onClick={toggleAuth}
+            >
+              <i className={`fa ${isAuthActive ? "fa-minus" : "fa-user"}`}></i>
+            </button>
+            {isAuthActive && (
+              <div className="auth-buttons">
+                <Link to="/profile" className="auth-link">
+                  Mon Profil
+                </Link>
+                <button onClick={handleLogout} className="auth-link">
+                  Déconnexion
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="auth-buttons">
+            <Link to="/login" className="auth-link">
+              Connexion
+            </Link>
+            <Link to="/register" className="auth-link">
+              Inscription
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );

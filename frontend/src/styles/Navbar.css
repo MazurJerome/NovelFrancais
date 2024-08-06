@@ -1,39 +1,15 @@
-* {
-  box-sizing: border-box;
-}
-
-body,
-button,
-input {
-  font: 1em Hind, sans-serif;
-  line-height: 1.5em;
-}
-
-body,
-input {
-  color: #2f4f4f;
-}
-
-body {
-  background: #f5f5dc;
-  height: 100vh;
-}
-
 .navbar {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: #40545c;
-  color: #f5deb3;
-  padding: 10px 20px;
-}
-
-.navbar-menu {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
+  color: var(--tertiary-color);
+  padding: 10px 20px 400px 20px;
+  background-image: url("../head.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .navbar-section {
@@ -58,15 +34,20 @@ body {
 }
 
 .navbar a {
-  color: #f5deb3; /* Texte beige clair */
+  color: var(--tertiary-color);
   text-decoration: none;
   font-size: 1.2em;
-  margin-right: 15px; /* Espacement entre les liens */
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.navbar a:hover {
+  color: var(--hover-color);
 }
 
 .navbar h1 {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1.6em;
 }
 
 .search-section {
@@ -89,10 +70,10 @@ body {
 .search-toggle-btn {
   width: 36px;
   height: 36px;
-  background-color: #2f4f4f;
+  background-color: var(--primary-color);
   border: none;
   border-radius: 18px;
-  color: #f5deb3;
+  color: var(--secondary-color);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -105,7 +86,7 @@ body {
 
 .search-toggle-btn:hover,
 .auth-toggle-btn:hover {
-  background-color: #8b4513; /* Couleur au survol */
+  background-color: var(--hover-color);
 }
 
 .search-input {
@@ -114,8 +95,8 @@ body {
   padding: 0 10px;
   border: none;
   border-radius: 18px;
-  background-color: #f5deb3;
-  color: #2f4f4f;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
   transition: width 0.4s ease, opacity 0.4s ease;
   width: 0;
   opacity: 0;
@@ -127,37 +108,36 @@ body {
   width: 200px;
   opacity: 1;
   position: relative;
-  padding-right: 36px; /* Ajustement pour le bouton de soumission */
+  padding-right: 36px;
 }
 
 .search-submit-btn {
-  width: 34px; /* Réduction de la largeur */
-  height: 34px; /* Réduction de la hauteur */
+  width: 34px;
+  height: 34px;
   background-color: transparent;
   border: none;
-  color: #2f4f4f;
+  color: var(--primary-color);
   cursor: pointer;
   position: absolute;
-  right: 1px; /* Ajustement de la position */
-  border-radius: 18px; /* Arrondi du bouton de soumission */
-  display: flex;
+  right: 1px;
+  border-radius: 18px;
   justify-content: center;
-  align-items: center; /* Centrage de l'icône */
+  align-items: center;
 }
 
 .search-submit-btn:hover {
-  background-color: #8b4513; /* Couleur au survol */
+  background-color: var(--hover-color);
 }
 
 .search-submit-btn i {
   font-size: 1.2em;
-  color: #2f4f4f;
+  color: var(--primary-color);
 }
 
 .suggestions-container {
   position: absolute;
-  top: 50px; /* Ajustez selon votre design */
-  background-color: #fff;
+  top: 50px;
+  background-color: var(--secondary-color);
   border: 1px solid #ccc;
   border-radius: 8px;
   width: 200px;
@@ -172,57 +152,45 @@ body {
 }
 
 .suggestion-item.selected {
-  background-color: #8b4513; /* Couleur de surbrillance */
-  color: #fff;
+  background-color: var(--hover-color);
+  color: var(--tertiary-color);
   border-radius: 8px;
   animation: glow 1s infinite;
 }
 
 @keyframes glow {
   0% {
-    box-shadow: 0 0 5px #8b4513;
+    box-shadow: 0 0 5px var(--hover-color);
   }
   50% {
-    box-shadow: 0 0 20px #8b4513;
+    box-shadow: 0 0 20px var(--hover-color);
   }
   100% {
-    box-shadow: 0 0 5px #8b4513;
+    box-shadow: 0 0 5px var(--hover-color);
   }
-}
-
-.add-novel-btn {
-  background-color: #28a745; /* Vert pour ajouter */
-  padding: 5px 10px;
-  border-radius: 8px;
-  margin-left: 15px;
-  white-space: nowrap;
-}
-
-.add-novel-btn:hover {
-  background-color: #218838;
 }
 
 .auth-link {
-  background-color: #007bff; /* Bleu pour les liens d'authentification */
+  background-color: var(--secondary-color);
   padding: 5px 10px;
   border-radius: 8px;
   margin-bottom: 5px;
-  color: white;
+  color: var(--tertiary-color);
   text-align: center;
   width: 100%;
 }
 
 .auth-link:hover {
-  background-color: #0056b3;
+  background-color: var(--hover-color);
 }
 
 .auth-toggle-btn {
   width: 36px;
   height: 36px;
-  background-color: #2f4f4f;
+  background-color: var(--primary-color);
   border: none;
   border-radius: 18px;
-  color: #f5deb3;
+  color: var(--secondary-color);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -230,7 +198,7 @@ body {
   transition: background-color 0.3s ease;
   position: relative;
   z-index: 1;
-  margin-left: 15px; /* Ajout de marge entre la barre de recherche et l'icône de connexion */
+  margin-left: 15px;
 }
 
 .auth-buttons {
@@ -241,20 +209,7 @@ body {
   position: absolute;
   top: 50px;
   right: 0;
-  background-color: #2f4f4f;
+  background-color: var(--primary-color);
   padding: 10px;
   border-radius: 8px;
-}
-
-@media screen and (prefers-color-scheme: dark) {
-  body,
-  input {
-    color: #f1f1f1;
-  }
-  body {
-    background: #171717;
-  }
-  .search-input {
-    background-color: #3d3d3d;
-  }
 }

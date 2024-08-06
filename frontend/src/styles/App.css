@@ -1,4 +1,6 @@
-/* src/styles/App.css */
+* {
+  box-sizing: border-box;
+}
 
 .App {
   display: flex;
@@ -7,20 +9,16 @@
   width: 100%;
 }
 
-.home-page,
-.novel-page {
-  padding: 20px;
+body,
+button,
+input {
+  font: 1em Hind, sans-serif;
+  line-height: 1.5em;
 }
 
-.home-page ul,
-.novel-page ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.home-page li,
-.novel-page li {
-  margin: 10px 0;
+body {
+  background: #f5f5dc;
+  height: 100vh;
 }
 
 .home-page a,
