@@ -17,14 +17,14 @@ input {
 }
 
 body {
-  background: #f5f5dc;
+  background: var(--background-color);
   height: 100vh;
 }
 
 .home-page a,
 .novel-page a {
   text-decoration: none;
-  color: #2f4f4f;
+  color: var(--primary-color);
 }
 
 .home-page a:hover,

@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   color: var(--tertiary-color);
-  padding: 10px 20px 400px 20px;
+  padding: 10px 20px 350px 20px;
   background-image: url("../head.png");
   background-size: cover;
   background-position: center;
@@ -35,19 +35,13 @@
 
 .navbar a {
   color: var(--tertiary-color);
-  text-decoration: none;
   font-size: 1.2em;
   font-weight: bold;
   margin-right: 15px;
 }
 
-.navbar a:hover {
-  color: var(--hover-color);
-}
-
 .navbar h1 {
-  margin: 0;
-  font-size: 1.6em;
+  font-size: 1.8em;
 }
 
 .search-section {
@@ -147,8 +141,17 @@
 }
 
 .suggestion-item {
-  padding: 10px;
+  font-size: 0.8em;
+  padding: 5px;
   cursor: pointer;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-clamp: 2;
+  box-orient: vertical;
 }
 
 .suggestion-item.selected {
@@ -156,6 +159,12 @@
   color: var(--tertiary-color);
   border-radius: 8px;
   animation: glow 1s infinite;
+}
+
+.suggestion-item.hovered {
+  background-color: var(--hover-color);
+  color: var(--tertiary-color);
+  border-radius: 8px;
 }
 
 @keyframes glow {
@@ -182,6 +191,7 @@
 
 .auth-link:hover {
   background-color: var(--hover-color);
+  color: var(--tertiary-color);
 }
 
 .auth-toggle-btn {

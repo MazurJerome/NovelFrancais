@@ -9,6 +9,7 @@ function Navbar() {
   const [isAuthActive, setIsAuthActive] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [hoveredIndex, setHoveredIndex] = useState(-1); // Nouvel état pour la suggestion survolée
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
@@ -25,18 +26,22 @@ function Navbar() {
   );
 
   useEffect(() => {
-    if (searchQuery.trim()) {
-      axios
-        .get(`http://localhost:5000/api/novels?query=${searchQuery}`)
-        .then((response) => {
+    const fetchSuggestions = async () => {
+      if (searchQuery.trim()) {
+        try {
+          const response = await axios.get(
+            `http://localhost:5000/api/novels?query=${searchQuery}`
+          );
           setSuggestions(response.data);
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error("Error fetching suggestions:", error);
-        });
-    } else {
-      setSuggestions([]);
-    }
+        }
+      } else {
+        setSuggestions([]);
+      }
+    };
+
+    fetchSuggestions();
   }, [searchQuery]);
 
   useEffect(() => {
@@ -45,10 +50,12 @@ function Navbar() {
         setSelectedIndex((prevIndex) =>
           prevIndex < suggestions.length - 1 ? prevIndex + 1 : prevIndex
         );
+        setHoveredIndex(-1); // Réinitialiser l'index survolé lorsque la flèche bas est utilisée
       } else if (event.key === "ArrowUp") {
         setSelectedIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
+        setHoveredIndex(-1); // Réinitialiser l'index survolé lorsque la flèche haut est utilisée
       } else if (event.key === "Enter" && selectedIndex >= 0) {
         handleSuggestionClick(suggestions[selectedIndex]);
       }
@@ -120,7 +127,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-section">
-        <Link to="/" onClick={handleHomeClick}>
+        <Link to="/" onClick={handleHomeClick} aria-label="Accueil">
           Accueil
         </Link>
       </div>
@@ -137,6 +144,7 @@ function Navbar() {
               type="button"
               className="search-toggle-btn"
               onClick={toggleSearch}
+              aria-label="Toggle Search"
             >
               <i
                 className={`fa ${isSearchActive ? "fa-minus" : "fa-search"}`}
@@ -149,9 +157,14 @@ function Navbar() {
               placeholder="Rechercher..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label="Search Input"
             />
             {isSearchActive && (
-              <button type="submit" className="search-submit-btn search-icon">
+              <button
+                type="submit"
+                className="search-submit-btn search-icon"
+                aria-label="Submit Search"
+              >
                 <i className="fa fa-arrow-right"></i>
               </button>
             )}
@@ -162,9 +175,14 @@ function Navbar() {
                 <div
                   key={suggestion._id}
                   className={`suggestion-item ${
-                    index === selectedIndex ? "selected" : ""
-                  }`}
+                    index === selectedIndex && hoveredIndex === -1
+                      ? "selected"
+                      : ""
+                  } ${index === hoveredIndex ? "hovered" : ""}`}
                   onMouseDown={() => handleSuggestionClick(suggestion)}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(-1)}
+                  aria-label={suggestion.title}
                 >
                   {suggestion.title}
                 </div>
@@ -178,15 +196,20 @@ function Navbar() {
               type="button"
               className="auth-toggle-btn"
               onClick={toggleAuth}
+              aria-label="Toggle Profile Menu"
             >
               <i className={`fa ${isAuthActive ? "fa-minus" : "fa-user"}`}></i>
             </button>
             {isAuthActive && (
               <div className="auth-buttons">
-                <Link to="/profile" className="auth-link">
+                <Link to="/profile" className="auth-link" aria-label="Profile">
                   Mon Profil
                 </Link>
-                <button onClick={handleLogout} className="auth-link">
+                <button
+                  onClick={handleLogout}
+                  className="auth-link"
+                  aria-label="Logout"
+                >
                   Déconnexion
                 </button>
               </div>
@@ -194,10 +217,10 @@ function Navbar() {
           </div>
         ) : (
           <div className="auth-buttons">
-            <Link to="/login" className="auth-link">
+            <Link to="/login" className="auth-link" aria-label="Login">
               Connexion
             </Link>
-            <Link to="/register" className="auth-link">
+            <Link to="/register" className="auth-link" aria-label="Register">
               Inscription
             </Link>
           </div>

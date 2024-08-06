@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import GenreMenu from "../components/GenreMenu";
 import NovelCard from "../components/NovelCard";
 import "../styles/HomePage.css";
@@ -80,7 +83,20 @@ function HomePage() {
 
   const latestNovels = novels
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 3);
+    .slice(0, 5);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerMode: true,
+    centerPadding: "0",
+    beforeChange: (current, next) => setSlideIndex(next),
+  };
+
+  const [slideIndex, setSlideIndex] = useState(0);
 
   return (
     <div className="home-page">
@@ -89,11 +105,16 @@ function HomePage() {
           {!selectedGenre && !showCompleted && (
             <>
               <h3>Derniers romans mis à jour</h3>
-              <div className="novel-list">
-                {latestNovels.map((novel) => (
-                  <NovelCard key={novel._id} novel={novel} />
+              <Slider {...settings}>
+                {latestNovels.map((novel, index) => (
+                  <div
+                    key={novel._id}
+                    className={index === slideIndex ? "highlight" : ""}
+                  >
+                    <NovelCard novel={novel} />
+                  </div>
                 ))}
-              </div>
+              </Slider>
             </>
           )}
           {selectedGenre && (
@@ -131,6 +152,7 @@ function HomePage() {
           )}
         </div>
         <div className="right-column">
+          <h3>Selection rapide</h3>
           <button
             onClick={handleShowCompleted}
             className="completed-novels-btn"
