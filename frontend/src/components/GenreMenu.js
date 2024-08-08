@@ -7,7 +7,7 @@ function GenreMenu({ genres, onSelectGenre, resetFilters }) {
 
   return (
     <div className="genre-menu">
-      <h3>Genres</h3>
+      <h3>Par Genres</h3>
       <ul>
         {sortedGenres.map((genre) => (
           <li key={genre} onClick={() => onSelectGenre(genre)}>
@@ -16,7 +16,7 @@ function GenreMenu({ genres, onSelectGenre, resetFilters }) {
         ))}
       </ul>
       <button onClick={resetFilters} className="reset-filter-btn">
-        Réinitialiser le filtre
+        Retour à la page d'accueil
       </button>
     </div>
   );

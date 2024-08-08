@@ -121,7 +121,7 @@ function Navbar() {
 
   const handleHomeClick = () => {
     navigate("/");
-    window.location.reload(); // Reset the state in HomePage component
+    window.location.reload();
   };
 
   return (

@@ -7,11 +7,6 @@ import GenreMenu from "../components/GenreMenu";
 import NovelCard from "../components/NovelCard";
 import "../styles/HomePage.css";
 
-const getPrefix = (genre) => {
-  const vowels = ["a", "e", "i", "o", "u", "y", "h"];
-  return vowels.includes(genre.charAt(0).toLowerCase()) ? "d'" : "de ";
-};
-
 function HomePage() {
   const [novels, setNovels] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -119,10 +114,7 @@ function HomePage() {
           )}
           {selectedGenre && (
             <>
-              <h3>
-                Romans {getPrefix(selectedGenre)}
-                {selectedGenre}
-              </h3>
+              <h3>Romans du genre : {selectedGenre}</h3>
               <div className="novel-list">
                 {novels.map((novel) => (
                   <NovelCard key={novel._id} novel={novel} />
