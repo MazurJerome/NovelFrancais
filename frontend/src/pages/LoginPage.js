@@ -16,7 +16,7 @@ function LoginPage() {
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         navigate("/");
-        window.location.reload(); // Reload the page to update the Navbar
+        window.location.reload();
       })
       .catch((error) => {
         setError("Invalid credentials");

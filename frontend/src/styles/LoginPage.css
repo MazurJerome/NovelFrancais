@@ -6,7 +6,7 @@
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: #2f4f4f;
+  color: var(--primary-color);
   font-family: "Hind", sans-serif;
 }
 
@@ -23,7 +23,7 @@
 }
 
 .login-page input {
-  width: calc(100% - 20px); /* Adjusted width to keep padding consistent */
+  width: calc(100% - 20px);
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -36,17 +36,17 @@
 }
 
 .login-page .login-btn {
-  background-color: #28a745; /* Vert pour le bouton de connexion */
-  border: 2px solid #2f4f4f; /* Ajout de la bordure */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombre pour l'effet explosion */
+  background-color: #28a745;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  width: auto; /* Assurer que la largeur s'ajuste au contenu */
-  max-width: 200px; /* Limiter la largeur maximale */
-  display: inline-block; /* Pour ne pas prendre toute la largeur */
+  width: auto;
+  max-width: 200px;
+  display: inline-block;
 }
 
 .login-page .login-btn:hover {

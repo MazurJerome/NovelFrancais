@@ -9,7 +9,7 @@ function Navbar() {
   const [isAuthActive, setIsAuthActive] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [hoveredIndex, setHoveredIndex] = useState(-1); // Nouvel état pour la suggestion survolée
+  const [hoveredIndex, setHoveredIndex] = useState(-1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
@@ -50,12 +50,12 @@ function Navbar() {
         setSelectedIndex((prevIndex) =>
           prevIndex < suggestions.length - 1 ? prevIndex + 1 : prevIndex
         );
-        setHoveredIndex(-1); // Réinitialiser l'index survolé lorsque la flèche bas est utilisée
+        setHoveredIndex(-1);
       } else if (event.key === "ArrowUp") {
         setSelectedIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
-        setHoveredIndex(-1); // Réinitialiser l'index survolé lorsque la flèche haut est utilisée
+        setHoveredIndex(-1);
       } else if (event.key === "Enter" && selectedIndex >= 0) {
         handleSuggestionClick(suggestions[selectedIndex]);
       }
@@ -75,7 +75,6 @@ function Navbar() {
   }, [location]);
 
   useEffect(() => {
-    // Check if the user is logged in
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);

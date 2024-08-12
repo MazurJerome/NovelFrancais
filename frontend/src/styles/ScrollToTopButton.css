@@ -7,8 +7,8 @@
 }
 
 .scroll-to-top div {
-  background-color: #2f4f4f; /* Couleur principale du site */
-  color: #f5deb3; /* Texte beige clair */
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   padding: 10px 15px;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -20,6 +20,6 @@
 }
 
 .scroll-to-top div:hover {
-  background-color: #8b4513; /* Couleur au survol */
-  transform: scale(1.1); /* Légère augmentation de la taille au survol */
+  background-color: var(--hover-color);
+  transform: scale(1.1);
 }

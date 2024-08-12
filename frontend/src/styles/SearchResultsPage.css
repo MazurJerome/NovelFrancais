@@ -1,12 +1,10 @@
-/* src/styles/SearchResultsPage.css */
-
 .search-results-page {
   padding: 20px;
   text-align: center;
 }
 
 .search-results-page h2 {
-  margin-bottom: 40px; /* Ajoutez de l'espace en bas du titre */
+  margin-bottom: 40px;
 }
 
 .novel-list {

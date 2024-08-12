@@ -1,5 +1,3 @@
-/* src/styles/NovelList.css */
-
 .novel-list {
   display: flex;
   flex-wrap: wrap;
@@ -14,7 +12,7 @@
   text-decoration: none;
   color: inherit;
   position: relative;
-  margin-bottom: 40px; /* Ajoutez une marge en bas pour éviter le chevauchement */
+  margin-bottom: 40px;
 }
 
 .novel-card-background {
@@ -37,10 +35,10 @@
 
 .novel-card-content {
   width: 100%;
-  height: 60px; /* Hauteur ajustée pour permettre deux lignes de texte */
-  padding: 5px 10px; /* Ajustement du padding */
+  height: 60px;
+  padding: 5px 10px;
   background: rgba(0, 0, 0, 0.5);
-  color: #f5deb3; /* Couleur beige */
+  color: var(--secondary-color);
   text-align: center;
   display: flex;
   align-items: center;
@@ -49,24 +47,19 @@
 }
 
 .novel-card-content h3 {
-  font-size: 1em; /* Taille du texte */
+  font-size: 1em;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Limitez à deux lignes */
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
-  line-height: 1.2em; /* Hauteur de ligne ajustée pour mieux gérer l'espacement */
-  max-height: 2.4em; /* Pour s'assurer que deux lignes sont visibles */
+  line-height: 1.2em;
+  max-height: 2.4em;
   color: inherit;
 }
 
-.novel-card:hover .novel-card-content h3 {
-  color: #ffa500; /* Couleur orange en hover */
-  text-decoration: none; /* Supprime le soulignement au survol */
-}
-
-/* Ajoutez cette règle pour cibler spécifiquement les liens et supprimer le soulignement */
 .novel-card-content a {
   text-decoration: none;
 }

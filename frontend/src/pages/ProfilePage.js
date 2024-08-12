@@ -21,7 +21,6 @@ function ProfilePage() {
         headers: { "x-auth-token": token },
       })
       .then((response) => {
-        // Vérifier et supprimer les doublons ici
         const readNovels = response.data.user.readNovels;
         const uniqueNovels = [];
 
@@ -43,7 +42,6 @@ function ProfilePage() {
         response.data.user.readNovels = uniqueNovels;
         setProfile(response.data);
 
-        // Fetch latest chapters for each novel
         uniqueNovels.forEach((novel) => {
           axios
             .get(`http://localhost:5000/api/novels/${novel.novelId}`)

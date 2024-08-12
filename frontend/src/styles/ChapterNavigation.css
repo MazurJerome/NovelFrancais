@@ -8,9 +8,9 @@
 .chapter-navigation button {
   width: 40vh;
   height: 45px;
-  background-color: #2f4f4f;
+  background-color: var(--primary-color);
   border: none;
-  color: #f5deb3;
+  color: var(--secondary-color);
   padding: 10px 20px;
   margin: 0 10px;
   border-radius: 8px;
@@ -19,20 +19,20 @@
 }
 
 .chapter-navigation button:disabled {
-  background-color: #ccc; /* Couleur de fond grise pour les boutons désactivés */
-  color: #666; /* Couleur de texte grisée pour les boutons désactivés */
-  cursor: not-allowed; /* Changer le curseur pour indiquer que le bouton est désactivé */
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 .chapter-navigation button:hover:not(:disabled) {
-  background-color: #8b4513;
+  background-color: var(--hover-color);
 }
 
 .chapter-navigation select {
   width: 55vh;
   height: 45px;
-  background-color: #f5deb3;
-  color: #2f4f4f;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
@@ -43,13 +43,13 @@
 
 .chapter-navigation select:hover {
   background-color: #e0c9a0;
-  border-color: #8b4513;
+  border-color: var(--hover-color);
 }
 
 .chapter-navigation option {
   padding: 10px;
-  background-color: #f5deb3;
-  color: #2f4f4f;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .chapter-navigation option:hover {
@@ -58,7 +58,7 @@
 .nav-link {
   margin: 0 10px;
   text-decoration: none;
-  color: #2f4f4f;
+  color: var(--primary-color);
 }
 
 .nav-link.disabled {

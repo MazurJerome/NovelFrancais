@@ -1,6 +1,5 @@
-// ChapterPage.js
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ChapterNavigation from "../components/ChapterNavigation";
 import FontSizeMenu from "../components/FontSizeMenu";
@@ -13,6 +12,7 @@ function ChapterPage() {
   const [fontSize, setFontSize] = useState(16);
   const [novelTitle, setNovelTitle] = useState("");
   const navigate = useNavigate();
+  const chapterContentRef = useRef(null);
 
   const markChapterAsRead = useCallback(() => {
     const token = localStorage.getItem("token");
@@ -62,7 +62,9 @@ function ChapterPage() {
   }, [novelId, chapterId, markChapterAsRead]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (chapterContentRef.current) {
+      chapterContentRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }, [chapterId]);
 
   const handleChapterChange = (newIndex) => {
@@ -76,18 +78,20 @@ function ChapterPage() {
       </Link>
       {chapter ? (
         <>
-          <h2>{chapter.title}</h2>
-          <ChapterNavigation
-            novelId={novelId}
-            chapterId={chapterId}
-            chapters={chapters}
-            onChange={handleChapterChange}
-          />
-          <FontSizeMenu fontSize={fontSize} setFontSize={setFontSize} />
           <div
             className="chapter-content"
+            ref={chapterContentRef}
             style={{ fontSize: `${fontSize}px` }}
           >
+            <h2>{chapter.title}</h2>
+            <ChapterNavigation
+              novelId={novelId}
+              chapterId={chapterId}
+              chapters={chapters}
+              onChange={handleChapterChange}
+            />
+            <FontSizeMenu fontSize={fontSize} setFontSize={setFontSize} />
+
             <p>
               <strong>{chapter.title}</strong>
             </p>

@@ -39,7 +39,7 @@ const ChapterNavigation = ({ novelId, chapterId, chapters, onChange }) => {
       >
         {chapters.map((chapter, index) => (
           <option key={chapter.number} value={chapter.number}>
-            Chapitre {index + 1}: {chapter.title}
+            {chapter.title}
           </option>
         ))}
       </select>

@@ -1,7 +1,7 @@
 .profile-page {
   text-align: center;
   margin: 20px;
-  color: #2f4f4f;
+  color: var(--primary-color);
   font-family: "Hind", sans-serif;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .profile-page .novel-card {
-  background-color: #f5deb3;
+  background-color: var(--secondary-color);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 25px;
@@ -27,7 +27,7 @@
   height: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Aligner les éléments en bas */
+  justify-content: flex-end;
   overflow: hidden;
   position: relative;
   transition: transform 0.3s ease;
@@ -42,7 +42,7 @@
   color: inherit;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end; /* Aligner les éléments en bas */
+  justify-content: flex-end;
   align-items: center;
   height: 100%;
   width: 100%;
@@ -58,9 +58,7 @@
   width: 100%;
   height: 100%;
   z-index: 0;
-  filter: brightness(
-    0.7
-  ); /* Pour assombrir l'image et faire ressortir le texte */
+  filter: brightness(0.7);
 }
 
 .profile-page .novel-card-content {
@@ -74,7 +72,7 @@
   z-index: 1;
   padding: 10px;
   font-size: 1.7em;
-  color: #f5deb3;
+  color: var(--secondary-color);
 }
 
 .profile-page .novel-card-content h3 {
@@ -99,12 +97,7 @@
   font-size: 1em;
   color: #ff6347;
   font-weight: bold;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.8
-  ); /* Ajoutez un fond pour rendre le texte plus lisible */
+  background-color: rgba(255, 255, 255, 0.8);
   z-index: 2;
   animation: pulse 1s infinite;
 }
@@ -160,7 +153,7 @@
 
 .profile-page .login-btn {
   background-color: #28a745;
-  border: 2px solid #2f4f4f;
+  border: 2px solid var(--primary-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
